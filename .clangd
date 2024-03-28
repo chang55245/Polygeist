@@ -1,0 +1,7 @@
+# If:                               # Apply this config conditionally
+  # PathMatch: .*\.h                # to all headers...
+  # PathExclude: include/llvm-c/.*  # except those under include/llvm-c/
+CompileFlags:
+  Remove:
+    - -fno-lifetime-dse
+#   CompilationDatabase: /heorot/lchang21/llvm/Polygeist/build/compile_commands.json
