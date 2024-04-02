@@ -20,21 +20,22 @@ func.func @callC() -> i32 {
 
 func.func @main(%input : i32) -> () {
 // dependencies need to be analyzed using a pass
-    tasflow.task (name="A", dependencies=["B"]) {
+    %a = tasflow.task {name="A", dependencies=["B"]} {
         print("A")
         %outa = call @callA(%arga) : () -> i32
     }
 
-    tasflow.task (name="B", dependencies=["C"]) {
+    %b = tasflow.task {name="B", dependencies=["C"]} {
         print("B")
         %outb = call @callB(%argb) : () -> i32
     }
 
 
-    tasflow.task (name="C", dependencies=[]) {
+    %c =tasflow.task {name="C", dependencies=[]} {
         print("C")
         %outc = call @callC(%argc) : () -> i32
     }
-
+    taskflow.proceed(%c, %b)
+    taskflow.proceed(%b, %a)
     tasflow.execute()
 }
