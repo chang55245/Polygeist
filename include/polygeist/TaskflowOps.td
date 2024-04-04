@@ -2,6 +2,7 @@
 #define TASKFLOW_OPS
 
 include "TaskflowDialect.td"
+include "TaskflowTypes.td"
 
 include "mlir/IR/OpBase.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
@@ -13,14 +14,28 @@ include "mlir/Dialect/LLVMIR/LLVMOpBase.td"
 include "mlir/Dialect/LLVMIR/LLVMInterfaces.td"
 
 
-def macOp : Taskflow_Op<"MAC"> {
-	let summary = "MAC operation";
-	let arguments = (ins I32:$mul_opa,I32:$mul_opb);
-	let results = (outs I32:$accum_result);
+def executeOp : Taskflow_Op<"execute"> {
+	let summary = "execute operation";
+	//no argument
+	//no result
 
-	let builders = [
-		OpBuilder<(ins "Value":$opaArg,"Value":$opbArg)>
+}
 
-	];
+def taskOp : Taskflow_Op<"task"> {
+	let summary = "task operation";
+
+	//arguments
+	//attributes: task_name, dependence
+	//results tasknode type var
+
+	let results = (outs TaskNodeType:$outputNode);
+
+}
+
+def proceedOp : Taskflow_Op<"proceed"> {
+	let summary = "proceed operation";
+	// arguments: prev task, next task
+	//no result
+
 }
 #endif //TASKFLOW_OPS
