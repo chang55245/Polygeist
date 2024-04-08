@@ -28,6 +28,8 @@ def taskOp : Taskflow_Op<"task"> {
 
 	//attributes: task_name:string, dependence: tasknode
 	let arguments = (ins OptionalAttr<Builtin_StringAttr>:$taskName);
+	// task body a region of blocks
+	let regions = (region SizedRegion<1>:$body);
 	//results tasknode type var
 	let results = (outs TaskNodeType:$outputTask);
 
