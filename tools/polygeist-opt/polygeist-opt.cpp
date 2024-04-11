@@ -31,7 +31,9 @@
 #include "mlir/Transforms/Passes.h"
 
 #include "polygeist/Dialect.h"
+#include "polygeist/TaskflowDialect.h"
 #include "polygeist/Passes/Passes.h"
+
 
 using namespace mlir;
 
@@ -60,6 +62,7 @@ int main(int argc, char **argv) {
   registry.insert<mlir::math::MathDialect>();
   registry.insert<mlir::cf::ControlFlowDialect>();
   registry.insert<mlir::polygeist::PolygeistDialect>();
+  registry.insert<mlir::taskflow::TaskflowDialect>();
   registry.insert<DLTIDialect>();
 
   mlir::registerpolygeistPasses();

@@ -5,7 +5,6 @@ include "mlir/IR/OpBase.td"
 
 def Taskflow_Dialect : Dialect {
 	let name = "taskflow";
-	let summary = "";
 	let description = [{}];
 	let cppNamespace = "::mlir::taskflow";
 }
@@ -13,4 +12,4 @@ def Taskflow_Dialect : Dialect {
 class Taskflow_Op<string mnemonic, list<Trait> traits = []> : Op<Taskflow_Dialect, mnemonic, traits>;
 
 
-#endif
+#endif //TASKFLOW_DIALECT

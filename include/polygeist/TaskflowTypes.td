@@ -9,7 +9,7 @@ class Taskflow_Type<string name, string typeMnemonic> : TypeDef<Taskflow_Dialect
   let mnemonic = typeMnemonic;
 }
 
-def TaskNodeType: Taskflow_Type<"TaskNode", "tasknode"> {
+def Taskflow_TaskNodeType: Taskflow_Type<"TaskNode", "tasknode"> {
   let summary = "taskflow task type";
 
   let description = [{

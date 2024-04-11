@@ -3,9 +3,11 @@
 
 // Required because the .h.inc file refers to MLIR classes and does not itself
 // have any includes.
-#include "mlir/include/mlir/IR/DialectImplementation.h"
+#include "mlir/IR/DialectImplementation.h"
+
+#include "mlir/IR/Types.h"
 
 #define GET_TYPEDEF_CLASSES
-#include "polygeist/TaskflowTypes.h.inc"
+#include "polygeist/TaskflowOpsTypes.h.inc"
 
 #endif  // TASKFLOW_TYPES_H_
