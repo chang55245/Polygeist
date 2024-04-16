@@ -2,40 +2,35 @@
 // function
 // dependency
 
-func.func @callA() -> i32 {
-    %a = 1
-    return %a
+func.func @callA() -> index {
+    %c1 = arith.constant 1 : index
+    return %c1:index
 }
 
-func.func @callB() -> i32 {
-    %b = 2
-    return %b
+func.func @callB() -> index {
+    %c1 = arith.constant 1 : index
+    return %c1:index
 }
 
-func.func @callC() -> i32 {
-    %c = 3
-    return %c
+func.func @callC() -> index {
+    %c1 = arith.constant 1 : index
+    return %c1:index
 }
 
 
-func.func @main(%input : i32) -> () {
+func.func @main(%input : i32) {
 // dependencies need to be analyzed using a pass
-    %a = tasflow.task {name="A", dependencies=["B"]} {
-        print("A")
-        %outa = call @callA(%arga) : () -> i32
+    // %a = taskflow.taskdef() {name="A", dependencies=["B"]}:() -> i32 {      
+    //     func.call @callA() : () -> ()
+    // }
+    %a = taskflow.taskdef{
+        // %ct = func.call @callA() : () -> index
+    }
+    %b = taskflow.taskdef{
+        // func.call @callA() : () -> ()
     }
 
-    %b = tasflow.task {name="B", dependencies=["C"]} {
-        print("B")
-        %outb = call @callB(%argb) : () -> i32
-    }
-
-
-    %c =tasflow.task {name="C", dependencies=[]} {
-        print("C")
-        %outc = call @callC(%argc) : () -> i32
-    }
-    taskflow.proceed(%c, %b)
-    taskflow.proceed(%b, %a)
-    tasflow.execute()
+    taskflow.proceed(%a, %b)
+    taskflow.execute
+    return
 }

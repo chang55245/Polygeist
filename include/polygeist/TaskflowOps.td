@@ -19,9 +19,14 @@ def executeOp : Taskflow_Op<"execute"> {
 	let summary = "execute operation";
 	//no argument
 	//no result
+
+	// Simply the operation name, nothing else in asm attr-dict `(` `)`  
+	let assemblyFormat = [{
+		attr-dict  	
+  	}];
 }
 
-def taskOp : Taskflow_Op<"task"> {
+def taskOp : Taskflow_Op<"taskdef"> {
 	let summary = "task operation";
 
 	//arguments: a code region
@@ -29,9 +34,12 @@ def taskOp : Taskflow_Op<"task"> {
 	//attributes: task_name:string, dependence: tasknode
 	let arguments = (ins OptionalAttr<Builtin_StringAttr>:$taskName);
 	// task body a region of blocks
-	let regions = (region SizedRegion<1>:$body);
+	let regions = (region AnyRegion:$region);
 	//results tasknode type var
 	let results = (outs TaskNodeType:$outputTask);
+	let assemblyFormat = [{
+		$region attr-dict   
+  	}];
 
 }
 
@@ -40,5 +48,8 @@ def proceedOp : Taskflow_Op<"proceed"> {
 	// arguments: prev task, next task
 	let arguments = (ins TaskNodeType:$prevTask, TaskNodeType:$nextTask);
 	//no result
+	let assemblyFormat = [{
+		`(` $prevTask `,` $nextTask `)` attr-dict  	  
+  	}];
 }
 #endif //TASKFLOW_OPS
