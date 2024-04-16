@@ -26,7 +26,11 @@ def executeOp : Taskflow_Op<"execute"> {
   	}];
 }
 
-def taskOp : Taskflow_Op<"taskdef"> {
+
+//  inspired from async dialect: https://github.com/llvm/llvm-project/blob/main/mlir/test/mlir-opt/async.mlir
+//  https://github.com/llvm/llvm-project/blob/c50f7e9a425bfa4ab8655c79a715c88ed3b1e830/mlir/include/mlir/Dialect/Async/IR/AsyncOps.td#L36
+
+def taskOp : Taskflow_Op<"task",[SingleBlockImplicitTerminator<"yieldOp">]> {
 	let summary = "task operation";
 
 	//arguments: a code region
@@ -34,7 +38,7 @@ def taskOp : Taskflow_Op<"taskdef"> {
 	//attributes: task_name:string, dependence: tasknode
 	let arguments = (ins OptionalAttr<Builtin_StringAttr>:$taskName);
 	// task body a region of blocks
-	let regions = (region AnyRegion:$region);
+	let regions = (region SizedRegion<1>:$region);
 	//results tasknode type var
 	let results = (outs TaskNodeType:$outputTask);
 	let assemblyFormat = [{
@@ -42,6 +46,23 @@ def taskOp : Taskflow_Op<"taskdef"> {
   	}];
 
 }
+
+
+def yieldOp :
+    Taskflow_Op<"yield", [
+      HasParent<"taskOp">, Pure, Terminator, ReturnLike]> {
+  let summary = "terminator for task operation";
+  let description = [{
+    The `taskflow.yield` is a special terminator operation for the block inside
+    `taskflow.task` operation.
+  }];
+
+  let assemblyFormat = [{
+		attr-dict  	
+  	}];
+}
+
+
 
 def proceedOp : Taskflow_Op<"proceed"> {
 	let summary = "proceed operation";

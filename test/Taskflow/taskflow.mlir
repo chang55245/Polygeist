@@ -1,7 +1,3 @@
-// information need to be here
-// function
-// dependency
-
 func.func @callA() -> index {
     %c1 = arith.constant 1 : index
     return %c1:index
@@ -23,14 +19,21 @@ func.func @main(%input : i32) {
     // %a = taskflow.taskdef() {name="A", dependencies=["B"]}:() -> i32 {      
     //     func.call @callA() : () -> ()
     // }
-    %a = taskflow.taskdef{
-        // %ct = func.call @callA() : () -> index
+    %a = taskflow.task{
+        %ct = func.call @callA() : () -> index
+        taskflow.yield
     }
-    %b = taskflow.taskdef{
-        // func.call @callA() : () -> ()
+    %b = taskflow.task{
+        %ct = func.call @callB() : () -> index
+        taskflow.yield
+    }
+    %c = taskflow.task{
+        %ct = func.call @callB() : () -> index
+        taskflow.yield
     }
 
     taskflow.proceed(%a, %b)
+    taskflow.proceed(%c, %b)
     taskflow.execute
     return
 }
