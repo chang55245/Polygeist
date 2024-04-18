@@ -1,3 +1,6 @@
+///heorot/lchang21/llvm/Polygeist/build/bin/polygeist-opt taskflow.mlir
+
+
 func.func @callA() -> index {
     %c1 = arith.constant 1 : index
     return %c1:index
@@ -32,8 +35,8 @@ func.func @main(%input : i32) {
         taskflow.yield
     }
 
-    taskflow.proceed(%a, %b)
-    taskflow.proceed(%c, %b)
+    taskflow.precede(%a, %b)
+    taskflow.precede(%c, %b)
     taskflow.execute
     return
 }

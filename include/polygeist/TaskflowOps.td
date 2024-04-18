@@ -64,8 +64,8 @@ def yieldOp :
 
 
 
-def proceedOp : Taskflow_Op<"proceed"> {
-	let summary = "proceed operation";
+def precedeOp : Taskflow_Op<"precede"> {
+	let summary = "precede operation";
 	// arguments: prev task, next task
 	let arguments = (ins TaskNodeType:$prevTask, TaskNodeType:$nextTask);
 	//no result
