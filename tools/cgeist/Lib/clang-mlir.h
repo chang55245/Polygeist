@@ -25,6 +25,7 @@
 #include "mlir/Target/LLVMIR/TypeFromLLVM.h"
 #include "mlir/Target/LLVMIR/TypeToLLVM.h"
 #include "polygeist/Ops.h"
+#include "polygeist/TaskflowOps.h"
 #include "pragmaHandler.h"
 #include "clang/AST/ASTConsumer.h"
 #include "clang/AST/StmtVisitor.h"

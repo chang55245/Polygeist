@@ -1951,6 +1951,10 @@ ValueCategory MLIRScanner::VisitCallExpr(clang::CallExpr *expr) {
   }
   for (auto *a : expr->arguments())
     args.push_back(make_pair(Visit(a), a));
+  if (callee->getName() == "task_definition") {
+    builder.create<taskflow::executeOp>(loc);
+    builder.create<taskflow::yieldOp>(loc);
+  }
   return CallHelper(tocall, objType, args, expr->getType(),
                     expr->isLValue() || expr->isXValue(), expr);
 }

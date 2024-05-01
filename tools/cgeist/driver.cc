@@ -73,6 +73,7 @@
 #include <fstream>
 
 #include "polygeist/Dialect.h"
+#include "polygeist/TaskflowDialect.h"
 #include "polygeist/Passes/Passes.h"
 
 #include <fstream>
@@ -549,6 +550,7 @@ int main(int argc, char **argv) {
   context.getOrLoadDialect<mlir::memref::MemRefDialect>();
   context.getOrLoadDialect<mlir::linalg::LinalgDialect>();
   context.getOrLoadDialect<mlir::polygeist::PolygeistDialect>();
+  context.getOrLoadDialect<mlir::taskflow::TaskflowDialect>();
   context.getOrLoadDialect<mlir::cf::ControlFlowDialect>();
 
   LLVM::LLVMFunctionType::attachInterface<MemRefInsider>(context);

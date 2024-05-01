@@ -56,6 +56,7 @@ target_include_directories(cgeist PRIVATE
 )
 
 target_compile_definitions(cgeist PUBLIC -DLLVM_OBJ_ROOT="${LLVM_BINARY_DIR}")
+# target_compile_options(cgeist PRIVATE -flto=auto)
 target_link_libraries(cgeist PRIVATE
   MLIRSCFTransforms
   MLIRPolygeist
