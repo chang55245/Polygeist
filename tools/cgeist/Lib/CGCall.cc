@@ -1951,10 +1951,25 @@ ValueCategory MLIRScanner::VisitCallExpr(clang::CallExpr *expr) {
   }
   for (auto *a : expr->arguments())
     args.push_back(make_pair(Visit(a), a));
-  if (callee->getName() == "task_definition") {
+
+  if (callee->getName() == "execute") {
     builder.create<taskflow::executeOp>(loc);
-    builder.create<taskflow::yieldOp>(loc);
+    // return ValueCategory();
+
+    // builder.create<taskflow::yieldOp>(loc);
+  }else if (callee->getName() == "add_dependency"){
+    auto dep = std::get<0>(args[1]).val;
+    auto dep2 = std::get<0>(args[2]).val;
+    builder.create<taskflow::precedeOp>(loc, dep, dep2);
+    // return ValueCategory();
+  
+  }else if(callee->getName() == "task_definition"){
+    // auto dep = std::get<0>(args[0]).val;
+    // auto dep2 = std::get<0>(args[1]).val;
+    // builder.create<taskflow::definitionOp>(loc, dep, dep2);
+    // return ValueCategory();
   }
-  return CallHelper(tocall, objType, args, expr->getType(),
+ 
+    return CallHelper(tocall, objType, args, expr->getType(),
                     expr->isLValue() || expr->isXValue(), expr);
 }

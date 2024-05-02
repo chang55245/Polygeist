@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 3.13.4)
 include(CheckCXXSourceCompiles)
 
 cmake_policy(SET CMP0116 NEW)
-set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
+# set(CMAKE_INTERPROCEDURAL_OPTIMIZATION TRUE)
 
 set(POLYGEIST_ENABLE_CUDA 0 CACHE BOOL "Enable CUDA frontend and backend")
 set(POLYGEIST_ENABLE_ROCM 0 CACHE BOOL "Enable ROCM backend")

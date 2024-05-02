@@ -3,6 +3,7 @@
 
 include "TaskflowDialect.td"
 include "TaskflowTypes.td"
+include "Dialect.td"
 
 include "mlir/IR/OpBase.td"
 include "mlir/Interfaces/SideEffectInterfaces.td"
@@ -44,7 +45,6 @@ def taskOp : Taskflow_Op<"task",[SingleBlockImplicitTerminator<"yieldOp">]> {
 	let assemblyFormat = [{
 		$region attr-dict   
   	}];
-
 }
 
 
@@ -63,14 +63,25 @@ def yieldOp :
 }
 
 
+def definitionOp : Taskflow_Op<"definition"> {
+	let summary = "definition operation";
+	// arguments: prev task, next task
+	let arguments = (ins AnyMemRef : $taskName, AnyMemRef : $taskFunc);
+	//no result
+	// let assemblyFormat = [{
+	// 	`(` $taskName `,` $taskFunc `)` attr-dict  	  
+  	// }];
+}
+
 
 def precedeOp : Taskflow_Op<"precede"> {
 	let summary = "precede operation";
 	// arguments: prev task, next task
-	let arguments = (ins TaskNodeType:$prevTask, TaskNodeType:$nextTask);
+	// let arguments = (ins TaskNodeType:$prevTask, TaskNodeType:$nextTask);
+	let arguments = (ins AnyMemRef:$prevTask, AnyMemRef:$nextTask);
 	//no result
-	let assemblyFormat = [{
-		`(` $prevTask `,` $nextTask `)` attr-dict  	  
-  	}];
+	// let assemblyFormat = [{
+	// 	`(` $prevTask `,` $nextTask `)` attr-dict  	  
+  	// }];
 }
 #endif //TASKFLOW_OPS
