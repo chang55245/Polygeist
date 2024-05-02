@@ -1964,9 +1964,9 @@ ValueCategory MLIRScanner::VisitCallExpr(clang::CallExpr *expr) {
     // return ValueCategory();
   
   }else if(callee->getName() == "task_definition"){
-    // auto dep = std::get<0>(args[0]).val;
-    // auto dep2 = std::get<0>(args[1]).val;
-    // builder.create<taskflow::definitionOp>(loc, dep, dep2);
+    auto dep = std::get<0>(args[1]).val;
+    auto dep2 = std::get<0>(args[2]).val;
+    builder.create<taskflow::definitionOp>(loc, dep, dep2);
     // return ValueCategory();
   }
  
