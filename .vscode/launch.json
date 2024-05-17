@@ -1,0 +1,60 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [ 
+        {
+            "name": "(lldb) Launch",
+            "type": "lldb",
+            "request": "launch",
+            // CPLUS_INCLUDE_PATH=/home/lchang21/.vscode-server/data/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/lib/clang/17/include/ /heorot/lchang21/llvm/Polygeist/build/bin/cgeist -std=c++17 /heorot/lchang21/taskflow/taskflow/taskflow-lib/test.cpp -I /heorot/lchang21/taskflow/taskflow/taskflow-lib/ --function=main -S
+            "program": "/heorot/lchang21/llvm/Polygeist/build/bin/cgeist",
+            "args": ["/heorot/lchang21/taskflow/taskflow/taskflow-lib/test.cpp","-std=c++17","-I","/heorot/lchang21/taskflow/taskflow/taskflow-lib/", "--function=main", "-S", "-show-ast"],
+            "cwd": "${fileDirname}",
+
+            "env":{
+                    "CPLUS_INCLUDE_PATH": "/home/lchang21/.vscode-server/data/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/lib/clang/17/include/"
+                },
+                "initCommands": [
+                    "command script import /heorot/lchang21/llvm/Polygeist/llvm-project/llvm/utils/lldbDataFormatters.py",
+                    "command script import /heorot/lchang21/llvm/Polygeist/Polygeist/Formatters.py"
+                ]
+            
+        },
+        
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            // CPLUS_INCLUDE_PATH=/home/lchang21/.vscode-server/data/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/lib/clang/17/include/ /heorot/lchang21/llvm/Polygeist/build/bin/cgeist -std=c++17 /heorot/lchang21/taskflow/taskflow/taskflow-lib/test.cpp -I /heorot/lchang21/taskflow/taskflow/taskflow-lib/ --function=main -S
+            "program": "/heorot/lchang21/llvm/Polygeist/build/bin/cgeist",
+            "args": ["/heorot/lchang21/taskflow/taskflow/taskflow-lib/test.cpp","-std=c++17","-I","/heorot/lchang21/taskflow/taskflow/taskflow-lib/", "--function=main", "-S", "-show-ast"],
+            "stopAtEntry": false,
+            "cwd": "${fileDirname}",
+            "environment": [ 
+                {
+                    "name": "CPLUS_INCLUDE_PATH",
+                    "value": "/home/lchang21/.vscode-server/data/User/globalStorage/llvm-vs-code-extensions.vscode-clangd/install/17.0.3/clangd_17.0.3/lib/clang/17/include/"
+                }
+            ],
+            "externalConsole": false,
+            "MIMode": "gdb",
+            "miDebuggerPath": "/heorot/lchang21/gdb/usr/bin/gdb",
+            "setupCommands": [
+                {
+                    "description": "Enable pretty-printing for gdb",
+                    "text": "-enable-pretty-printing",
+                    "ignoreFailures": true
+                },
+                {
+                    "description": "Set Disassembly Flavor to Intel",
+                    "text": "-gdb-set disassembly-flavor intel",
+                    "ignoreFailures": true
+                }
+            ]
+        }
+
+    ]
+    
+}
