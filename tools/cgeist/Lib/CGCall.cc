@@ -13,6 +13,7 @@
 #include "mlir/Dialect/Math/IR/Math.h"
 #include "utils.h"
 #include "clang/Basic/Builtins.h"
+#include "llvm/Support/Casting.h"
 
 #define DEBUG_TYPE "CGCall"
 

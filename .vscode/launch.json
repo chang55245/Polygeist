@@ -18,7 +18,9 @@
                 },
                 "initCommands": [
                     "command script import /heorot/lchang21/llvm/Polygeist/llvm-project/llvm/utils/lldbDataFormatters.py",
-                    "command script import /heorot/lchang21/llvm/Polygeist/Polygeist/Formatters.py"
+                    "command script import /heorot/lchang21/llvm/Polygeist/Formatters.py",
+                    "command script import /heorot/lchang21/llvm/Polygeist/llvm-project/clang/utils/ClangDataFormat.py",
+                    "command script import /heorot/lchang21/llvm/Polygeist/llvm-project/clang/utils/clangdiag.py",
                 ]
             
         },
