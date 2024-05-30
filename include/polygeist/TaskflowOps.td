@@ -66,9 +66,8 @@ def yieldOp :
 def definitionOp : Taskflow_Op<"definition"> {
 	let summary = "definition operation";
 	// arguments: prev task, next task
-	let arguments = (ins AnyMemRef : $taskName, LLVM_AnyPointer : $taskFunc);
+	let arguments = (ins AnyMemRef : $taskName, AnyMemRef : $taskFunc);
 	let results = (outs AnyMemRef : $definedTask);
-	//no result
 	// let assemblyFormat = [{
 	// 	`(` $taskName `,` $taskFunc `)` attr-dict  	  
   	// }];

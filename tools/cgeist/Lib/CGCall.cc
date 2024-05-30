@@ -354,21 +354,52 @@ ValueCategory MLIRScanner::CallHelper(
   // Try to rescue some mismatched types.
   castCallerArgs(tocall, args, builder);
 
-  auto op = builder.create<CallOp>(loc, tocall, args);
+  bool isTaskFlow = false;
+  if (auto *callexpr = dyn_cast<CXXMemberCallExpr>(expr)) {
+    if (auto *mem = dyn_cast<MemberExpr>(callexpr->getCallee())) {
+      if (auto *sr = dyn_cast<NamedDecl>(mem->getMemberDecl())) {
+        if (sr->getIdentifier()) { 
+        
+          if(sr->getName() == "task_definition") {
 
-  if (isArrayReturn) {
-    // TODO remedy return
-    if (retReference)
-      expr->dump();
-    assert(!retReference);
-    return ValueCategory(alloc, /*isReference*/ true);
-  } else if (op->getNumResults()) {
-    return ValueCategory(op->getResult(0),
-                         /*isReference*/ retReference);
-  } else
-    return nullptr;
-  llvm::errs() << "do not support indirecto call of " << tocall << "\n";
-  assert(0 && "no indirect");
+            auto dep = args[1];
+            auto dep2 = args[2];
+      
+            builder.create<taskflow::definitionOp> (loc,dep.getType(), dep, dep2);
+            isTaskFlow = true;
+          }
+          else if (sr->getName() == "execute") {
+            builder.create<taskflow::executeOp>(loc);
+          
+          }
+          else if (sr->getName() == "add_dependency") {
+            auto dep = args[1];
+            auto dep2 = args[2];
+            builder.create<taskflow::precedeOp>(loc, dep, dep2);
+          }
+        }
+      }
+    }
+  }
+
+  // if (!isTaskFlow)
+  {
+    auto op = builder.create<CallOp>(loc, tocall, args);
+
+    if (isArrayReturn) {
+      // TODO remedy return
+      if (retReference)
+        expr->dump();
+      assert(!retReference);
+      return ValueCategory(alloc, /*isReference*/ true);
+    } else if (op->getNumResults()) {
+      return ValueCategory(op->getResult(0),
+                          /*isReference*/ retReference);
+    } else
+      return nullptr;
+    llvm::errs() << "do not support indirecto call of " << tocall << "\n";
+    assert(0 && "no indirect");
+  }
 }
 
 mlir::Value MLIRScanner::getLLVM(Expr *E, bool isRef) {
@@ -1953,25 +1984,6 @@ ValueCategory MLIRScanner::VisitCallExpr(clang::CallExpr *expr) {
   for (auto *a : expr->arguments())
     args.push_back(make_pair(Visit(a), a));
 
-  if (callee->getName() == "execute") {
-    builder.create<taskflow::executeOp>(loc);
-    // return ValueCategory();
-
-    // builder.create<taskflow::yieldOp>(loc);
-  }else if (callee->getName() == "add_dependency"){
-    auto dep = std::get<0>(args[1]).val;
-    auto dep2 = std::get<0>(args[2]).val;
-    builder.create<taskflow::precedeOp>(loc, dep, dep2);
-    // return ValueCategory();
-  
-  }else if(callee->getName() == "task_definition"){
-    auto dep = std::get<0>(args[1]).val;
-    auto dep2 = std::get<0>(args[2]).val;
-    
-    builder.create<taskflow::definitionOp> (loc,dep.getType(), dep, dep2);
-    // return ValueCategory();
-  }
- 
     return CallHelper(tocall, objType, args, expr->getType(),
                     expr->isLValue() || expr->isXValue(), expr);
 }
