@@ -365,17 +365,22 @@ ValueCategory MLIRScanner::CallHelper(
             auto dep = args[1];
             auto dep2 = args[2];
       
-            builder.create<taskflow::definitionOp> (loc,dep.getType(), dep, dep2);
+            auto res = builder.create<taskflow::definitionOp> (loc,dep.getType(), dep, dep2);
             isTaskFlow = true;
+            return ValueCategory(res->getResult(0),
+                          /*isReference*/ retReference);
           }
           else if (sr->getName() == "execute") {
             builder.create<taskflow::executeOp>(loc);
-          
+            isTaskFlow = true;
+            return nullptr;
           }
           else if (sr->getName() == "add_dependency") {
             auto dep = args[1];
             auto dep2 = args[2];
             builder.create<taskflow::precedeOp>(loc, dep, dep2);
+            isTaskFlow = true;
+            return nullptr;
           }
         }
       }
