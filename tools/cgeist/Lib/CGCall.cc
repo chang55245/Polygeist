@@ -24,6 +24,7 @@ using namespace mlir::func;
 using namespace mlirclang;
 
 extern llvm::cl::opt<bool> CStyleMemRef;
+extern llvm::cl::opt<bool> enableTaskflow;
 
 /// Try to typecast the caller arg of type MemRef to fit the corresponding
 /// callee arg type. We only deal with the cast where src and dst have the same
@@ -355,10 +356,10 @@ ValueCategory MLIRScanner::CallHelper(
   castCallerArgs(tocall, args, builder);
 
   bool isTaskFlow = false;
-  if (auto *callexpr = dyn_cast<CXXMemberCallExpr>(expr)) {
+  if (auto *callexpr = dyn_cast<CXXMemberCallExpr>(expr) ) {
     if (auto *mem = dyn_cast<MemberExpr>(callexpr->getCallee())) {
       if (auto *sr = dyn_cast<NamedDecl>(mem->getMemberDecl())) {
-        if (sr->getIdentifier()) { 
+        if (sr->getIdentifier()&& enableTaskflow) { 
         
           if(sr->getName() == "task_definition") {
 

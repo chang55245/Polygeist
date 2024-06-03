@@ -63,6 +63,9 @@ cl::opt<std::string> PrefixABI("prefix-abi", cl::init(""),
 cl::opt<bool> CStyleMemRef("c-style-memref", cl::init(true),
                            cl::desc("Use c style memrefs when possible"));
 
+cl::opt<bool> enableTaskflow("taskflow", cl::init(true),
+                           cl::desc("Enable taskflow IR"));
+
 static cl::opt<bool>
     CombinedStructABI("struct-abi", cl::init(true),
                       cl::desc("Use literal LLVM ABI for structs"));
